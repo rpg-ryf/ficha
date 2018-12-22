@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport">
+  <meta http-equiv="X-UA-Compatible">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>RyF Medieval</title>
+  <link rel="stylesheet" href="./ryf.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Metamorphous" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.js"></script>
+  <script src="./ryf.js"></script>
+</head>
+
+<body ng-app="ryf" ng-controller="ryfController as ryfCtrl">
+  <div class="container my-3">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="photo"></div>
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <h5 class="text-center attr-title">Atributos
+                  <span class="oi oi-lock-unlocked" ng-show="ryfCtrl.edittingAttributes" ng-click="ryfCtrl.toggleAttributeEdditing(false)"></span>
+                  <span class="oi oi-lock-locked" ng-show="!ryfCtrl.edittingAttributes" ng-click="ryfCtrl.toggleAttributeEdditing(true)"></span>
+                </h5>
+              </div>
+            </div>
+            <div class="row" ng-repeat="attr in ryfCtrl.character.attributes track by $index">
+              <div class="col attr">
+                <div class="row">
+                  <div class="col">
+                    {{attr.name}}
+                    <span class="oi oi-trash" ng-show="ryfCtrl.edittingAttributes" ng-click="ryfCtrl.removeAttribute($index)"></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <input class="form-control text-center px-0" type="number" ng-model="attr.value" ng-change="ryfCtrl.update()">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" ng-show="ryfCtrl.edittingAttributes">
+              <div class="col">
+                <label>
+                  Nombre
+                  <input class="form-control" ng-model="ryfCtrl.attribute.new">
+                </label>
+                <span class="oi oi-check text-success" ng-click="ryfCtrl.addAttribute()"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="personalData">
+          <div class="row">
+            <div class="col">
+              <label class="w-100">
+                Nombre
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.name" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+            <div class="col">
+              <label class="w-100">
+                Raza
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.race" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="w-100">
+                Altura
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.height" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+            <div class="col">
+              <label class="w-100">
+                Peso
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.weight" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+            <div class="col">
+              <label class="w-100">
+                Edad
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.age" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="w-100">
+                Ojos
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.eyes" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+            <div class="col">
+              <label class="w-100">
+                Pelo
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.hair" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="w-100">
+                Lugar de nacimiento
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.birthplace" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="w-100">
+                Ocupacion
+                <input class="form-control" ng-model="ryfCtrl.character.personalData.job" ng-change="ryfCtrl.update()">
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="w-100">
+                Descripción
+                <textarea class="form-control" ng-model="ryfCtrl.character.personalData.description" ng-change="ryfCtrl.update()">
+                </textarea>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <h5 class="text-center skill-title">Habilidades
+              <span class="oi oi-lock-unlocked" ng-show="ryfCtrl.edittingSkills" ng-click="ryfCtrl.toggleSkillEdditing(false)"></span>
+              <span class="oi oi-lock-locked" ng-show="!ryfCtrl.edittingSkills" ng-click="ryfCtrl.toggleSkillEdditing(true)"></span>
+            </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 skill" ng-repeat="skill in ryfCtrl.character.skills track by $index">
+            <div class="float-left">
+              <div class="skillValue mr-2">
+                <input class="display-inline form-control text-center px-0" type="number" ng-model="skill.value"
+                  ng-change="ryfCtrl.update()">
+              </div>
+            </div>
+            <div class="float-left position-relative">
+              <div class="skillName">
+                {{skill.name}} -
+                <!-- <div class="skillSum"> -->
+                <!-- <input class="display-inline form-control text-center px-0" type="number" readonly ng-value=""> -->
+                <div class="skillTotalLevel">
+                  {{ryfCtrl.attrAndSkill(skill)}}
+                </div>
+                <!-- </div> -->
+              </div>
+              <div class="stat">
+                {{skill.stat}}
+              </div>
+            </div>
+            <div class="float-right">
+              <span class="oi oi-trash" ng-show="ryfCtrl.edittingSkills" ng-click="ryfCtrl.removeSkill($index)"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row" ng-show="ryfCtrl.edittingSkills">
+          <div class="col">
+            <label>
+              Stat
+              <select class="form-control" ng-model="ryfCtrl.skill.new.stat">
+                <option ng-repeat="attr in ryfCtrl.character.attributes">{{attr.name}}</option>
+              </select>
+            </label>
+            <label>
+              Nombre
+              <input class="form-control" ng-model="ryfCtrl.skill.new.name">
+            </label>
+            <span class="oi oi-check text-success" ng-click="ryfCtrl.addSkill()"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <h5 class="text-center skill-title">Combate</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label>
+              Iniciativa
+              <input class="form-control text-center px-0" type="number" ng-model="ryfCtrl.character.initiative" ng-change="ryfCtrl.update()">
+            </label>
+          </div>
+          <div class="col-md-4">
+            <label>
+              Defensa
+              <input class="form-control text-center px-0" type="number" ng-model="ryfCtrl.character.defense" ng-change="ryfCtrl.update()">
+            </label>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-12">
+                Puntos de vida
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 pr-0">
+                <input class="form-control text-center px-0 w-30" type="number" ng-model="ryfCtrl.character.lifeCurrent" ng-change="ryfCtrl.update()">
+              </div>
+              <div class="col-md-6 pl-0">
+                <input class="form-control text-center px-0 w-30" type="number" ng-model="ryfCtrl.character.lifeTotal" ng-change="ryfCtrl.update()">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="row my-1">
+              <div class="col-md-6">Arma</div>
+              <div class="col-md-2">Daño</div>
+              <div class="col-md-4">Alcance</div>
+            </div>
+            <div class="row my-1">
+              <div class="col-md-5 pr-0"><input class="form-control" ng-model="ryfCtrl.character.weapon1.name" ng-change="ryfCtrl.update()" /></div>
+              <div class="col-md-3 pr-0"><input class="form-control" ng-model="ryfCtrl.character.weapon1.damage" ng-change="ryfCtrl.update()" /></div>
+              <div class="col-md-4"><input class="form-control" ng-model="ryfCtrl.character.weapon1.range" ng-change="ryfCtrl.update()" /></div>
+            </div>
+            <div class="row my-1">
+              <div class="col-md-5 pr-0"><input class="form-control" ng-model="ryfCtrl.character.weapon2.name" ng-change="ryfCtrl.update()" /></div>
+              <div class="col-md-3 pr-0"><input class="form-control" ng-model="ryfCtrl.character.weapon2.damage" ng-change="ryfCtrl.update()" /></div>
+              <div class="col-md-4"><input class="form-control" ng-model="ryfCtrl.character.weapon2.range" ng-change="ryfCtrl.update()" /></div>
+            </div>
+            <div class="row my-1">
+              <div class="col-md-5 pr-0"><input class="form-control" ng-model="ryfCtrl.character.weapon3.name" ng-change="ryfCtrl.update()" /></div>
+              <div class="col-md-3 pr-0"><input class="form-control" ng-model="ryfCtrl.character.weapon3.damage" ng-change="ryfCtrl.update()" /></div>
+              <div class="col-md-4"><input class="form-control" ng-model="ryfCtrl.character.weapon3.range" ng-change="ryfCtrl.update()" /></div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row my-1">
+              <div class="col-md-12">
+                <label>Heridas</label>
+                <textarea class="form-control" ng-model="ryfCtrl.character.wounds" ng-change="ryfCtrl.update()"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="w-100">
+                  Armadura
+                  <input class="form-control" ng-model="ryfCtrl.character.armor" ng-change="ryfCtrl.update()"/>
+                </label>
+              </div>
+              <div class="col-md-3">
+                <label>
+                  Absorción
+                  <input class="form-control" ng-model="ryfCtrl.character.absorption" ng-change="ryfCtrl.update()"/>
+                </label>
+              </div>
+              <div class="col-md-3">
+                <label>
+                  Estorbo
+                  <input class="form-control" ng-model="ryfCtrl.character.drag" ng-change="ryfCtrl.update()"/>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <h5 class="text-center skill-title">Equipo <span class="oi oi-plus" ng-click="ryfCtrl.addEquipment()"></span></h5>
+        <div class="row my-1" ng-repeat="item in ryfCtrl.character.equipment track by $index">
+          <div class="col-md-1">
+            <span class="oi oi-trash" ng-click="ryfCtrl.removeEquipment($index)"></span>
+          </div>
+          <div class="col-md-5"><input class="form-control" ng-model="item.name" ng-change="ryfCtrl.update()"/></div>
+          <div class="col-md-6"><textarea class="form-control" ng-model="item.description" ng-change="ryfCtrl.update()"></textarea></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6"><input class="form-control" ng-model="ryfCtrl.newEquipment.name"/></div>
+          <div class="col-md-6"><textarea class="form-control" ng-model="ryfCtrl.newEquipment.description"></textarea></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label>Dinero</label>
+            <textarea class="form-control" ng-model="ryfCtrl.character.money" ng-change="ryfCtrl.update()"></textarea>
+          </div>
+          <div class="col-md-8">
+              <label class="w-100">
+                Puntos de experiencia
+                <input class="form-control" ng-model="ryfCtrl.character.xp" />
+              </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h5 class="text-center skill-title">Magia</h5>
+        <div class="row">
+          <div class="col-md-6 pr-0">
+            <input class="form-control text-center px-0 w-30" type="number" ng-model="attr.character.manaCurrent" ng-change="ryfCtrl.update()">
+          </div>
+          <div class="col-md-6 pl-0">
+            <input class="form-control text-center px-0 w-30" type="number" ng-model="attr.character.manaTotal" ng-change="ryfCtrl.update()">
+          </div>
+        </div>
+        <div class="row" ng-repeat="spell in ryfCtrl.character.spells track by $index">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <input class="form-control w-25 display-inline" type="number" ng-model="spell.level" ng-change="ryfCtrl.update()"/>
+                {{spell.name}} - 
+                {{ryfCtrl.spellAndInt(spell.level)}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <textarea class="form-control" ng-model="spell.description"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <input class="form-control" ng-model="ryfCtrl.newSpell.name">
+        <span class="oi oi-plus" ng-click="ryfCtrl.addSpell()"></span>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
