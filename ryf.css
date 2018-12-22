@@ -1,0 +1,81 @@
+body {
+  font-family: 'Metamorphous', cursive;
+}
+
+h5 {
+  font-weight: bold;
+}
+
+.photo {
+  width: 150px;
+  padding-top: 150px;
+  /* height: 250px; */
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+
+.attr {
+  text-align: center;
+}
+
+.attr input {
+  width: 50px;
+  display: inline-block;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.attr-title:hover .oi-lock-locked {
+  opacity: 1;
+}
+
+.attr-title .oi-lock-locked {
+  opacity: 0;
+}
+
+.skill-title:hover .oi-lock-locked {
+  opacity: 1;
+}
+
+.skill-title .oi-lock-locked {
+  opacity: 0;
+}
+
+.skill .stat {
+  line-height: 38px;
+  font-size: 10px;
+  position: absolute;
+  top: 8px;
+}
+
+.skill .skillName {
+  line-height: 38px;
+  position: relative;
+  top: -5px;
+  font-size: 12px;
+}
+
+.skill .oi-trash {
+  line-height: 38px;
+}
+
+.skillValue,
+.skillSum {
+  width: 30px;
+  display: inline-block;
+}
+
+.skillValue input {
+  padding: 0;
+  margin-top: 6px;
+}
+
+.skillTotalLevel {
+  display: inline;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2e00c7;
+}
